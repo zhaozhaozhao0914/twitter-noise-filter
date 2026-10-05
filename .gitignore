@@ -1,0 +1,30 @@
+# System & Environment
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# Node & Build
+node_modules/
+dist/
+build/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Trae Work Cache
+.trae/
+.trae-html-share-packages/

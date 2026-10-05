@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 中文技术圈硬核实战博主与代表作全景库</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+            --tag-bg: #334155;
+            --border: #334155;
+            --success: #10b981;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 24px;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        p.subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 800px;
+        }
+        .workflow-box {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 36px;
+        }
+        .workflow-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #60a5fa;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+        .step-item {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+        .step-item strong {
+            color: #fff;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .filter-btn {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent);
+            color: #0f172a;
+            border-color: var(--accent);
+            font-weight: 600;
+        }
+        .search-input {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            min-width: 260px;
+            outline: none;
+        }
+        .search-input:focus {
+            border-color: var(--accent);
+        }
+        .table-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background: #111827;
+            padding: 14px 18px;
+            font-weight: 600;
+            color: #94a3b8;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+            vertical-align: top;
+        }
+        tr:hover td {
+            background-color: rgba(51, 65, 85, 0.3);
+        }
+        .author-cell {
+            white-space: nowrap;
+        }
+        .author-name {
+            font-weight: 600;
+            color: #f8fafc;
+            font-size: 15px;
+        }
+        .author-handle {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 13px;
+            display: block;
+            margin-top: 2px;
+        }
+        .author-handle:hover {
+            text-decoration: underline;
+        }
+        .category-badge {
+            display: inline-block;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: #27272a;
+            color: #a1a1aa;
+            border: 1px solid #3f3f46;
+        }
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        .tag {
+            background: var(--tag-bg);
+            color: #cbd5e1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .masterpiece {
+            color: #38bdf8;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        .audience {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="badge">实战开发者专属 · 2026 版</span>
+            <h1>中文技术圈硬核实战博主与代表作全景库</h1>
+            <p class="subtitle">告别人肉刷推与百人清单的信息过载。不搞空洞的名录堆砌，只归档带真实交付物、开源项目与代表作的实战派开发者。</p>
+        </header>
+
+        <div class="workflow-box">
+            <div class="workflow-title">⚡ 推荐配合的情报流水线（每日自动蒸馏闭环）</div>
+            <div class="workflow-steps">
+                <div class="step-item">
+                    <strong>1. 源头分层 (Tiers)</strong>
+                    主信息流只留不到 15 位代码级实战者。其余思考与动态源存入私密 List，由 Agent 统一调度。
+                </div>
+                <div class="step-item">
+                    <strong>2. 自动化规则降噪 (Filter)</strong>
+                    脚本直接过滤掉抽奖、求赞、短情绪推。只放行字符 &gt; 300、含代码块或 Github 仓库的深度长推。
+                </div>
+                <div class="step-item">
+                    <strong>3. LLM 结构化内参 (Digest)</strong>
+                    每天晨间自动跑一遍 Prompt，只提炼：解决的具体工程问题、关键实现工具/架构、可验证实操步骤。
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="filter-buttons" id="filterContainer">
+                <button class="filter-btn active" data-filter="all">全部领域</button>
+                <button class="filter-btn" data-filter="AI 架构与 Prompt 工程">AI 架构与 Prompt</button>
+                <button class="filter-btn" data-filter="独立开发与出海商业化">独立开发与出海</button>
+                <button class="filter-btn" data-filter="视觉与前沿生成式创意">视觉与影视创意</button>
+                <button class="filter-btn" data-filter="架构思考与极客工程">架构思考与极客工程</button>
+            </div>
+            <input type="text" id="searchInput" class="search-input" placeholder="搜索博主、代表作、技术标签...">
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 160px;">开发者 / X 账号</th>
+                        <th style="width: 140px;">核心分类</th>
+                        <th style="width: 300px;">领域定位与技术标签</th>
+                        <th style="width: 320px;">核心代表作 / 必读沉淀</th>
+                        <th>最适合读者群体</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr data-category="AI 架构与 Prompt 工程">
+                        <td class="author-cell">
+                            <div class="author-name">宝玉</div>
+                            <a href="https://x.com/dotey" target="_blank" class="author-handle">@dotey</a>
+                        </td>
+                        <td><span class="category-badge">AI 架构与 Prompt 工程</span></td>
+                        <td>
+                            <div>中文圈最高频实战派之一，长期输出高质量 Prompt 架构与大模型工程化落地经验。</div>
+                            <div class="tags"><span class="tag">#Prompt工程</span><span class="tag">#翻译管线</span><span class="tag">#工程化落地</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">《Prompt工程系统化实战指南》与大模型全自动翻译工作流</div>
+                        </td>
+                        <td>
+                            <div class="audience">希望构建严谨提示词架构与全自动翻译管线的开发者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="AI 架构与 Prompt 工程">
+                        <td class="author-cell">
+                            <div class="author-name">李继刚</div>
+                            <a href="https://x.com/lijigang" target="_blank" class="author-handle">@lijigang</a>
+                        </td>
+                        <td><span class="category-badge">AI 架构与 Prompt 工程</span></td>
+                        <td>
+                            <div>极具辨识度的 Prompt 架构探索者，擅长用 Lisp 语法与系统思考重构大模型认知表达。</div>
+                            <div class="tags"><span class="tag">#深度思考</span><span class="tag">#汉语新解</span><span class="tag">#Lisp风格Prompt</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">火遍全网的《汉语新解》SVG卡片生成 Prompt 及系列认知模型</div>
+                        </td>
+                        <td>
+                            <div class="audience">想要突破大模型陈词滥调、探索高阶思维表达的内容创作者与开发者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="AI 架构与 Prompt 工程">
+                        <td class="author-cell">
+                            <div class="author-name">向阳乔木</div>
+                            <a href="https://x.com/vista8" target="_blank" class="author-handle">@vista8</a>
+                        </td>
+                        <td><span class="category-badge">AI 架构与 Prompt 工程</span></td>
+                        <td>
+                            <div>Vibe Coding 坚实践行者，擅长结合 Cursor、Claude 等工具将产品构想光速落地为可用软件。</div>
+                            <div class="tags"><span class="tag">#Vibe Coding</span><span class="tag">#Cursor实战</span><span class="tag">#一人全栈</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">Cursor + AI 零基础敏捷构建全功能 Web 应用实战手册</div>
+                        </td>
+                        <td>
+                            <div class="audience">渴望用 AI 编程武装自己的一人公司与独立开发初学者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="AI 架构与 Prompt 工程">
+                        <td class="author-cell">
+                            <div class="author-name">歸藏</div>
+                            <a href="https://x.com/op7418" target="_blank" class="author-handle">@op7418</a>
+                        </td>
+                        <td><span class="category-badge">AI 架构与 Prompt 工程</span></td>
+                        <td>
+                            <div>AIGC 视觉前沿灯塔，每周汇总全球最高水准的 AI 绘画、视频与设计工具链进展。</div>
+                            <div class="tags"><span class="tag">#AIGC周刊</span><span class="tag">#Midjourney</span><span class="tag">#视觉工作流</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">《AIGC 周刊》全集与 Midjourney/Flux 参数精调手册</div>
+                        </td>
+                        <td>
+                            <div class="audience">对视觉审美、AI 绘画资产工业化管线有严苛要求的创作者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="AI 架构与 Prompt 工程">
+                        <td class="author-cell">
+                            <div class="author-name">Axton Liu</div>
+                            <a href="https://x.com/AxtonLiu" target="_blank" class="author-handle">@AxtonLiu</a>
+                        </td>
+                        <td><span class="category-badge">AI 架构与 Prompt 工程</span></td>
+                        <td>
+                            <div>技术布道者，擅长以清晰逻辑拆解 Dify、Coze 等复杂 Agent 编排框架与 RAG 落地。</div>
+                            <div class="tags"><span class="tag">#Agent实战</span><span class="tag">#Dify</span><span class="tag">#知识库构建</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">手把手教你搭建商业级 RAG 知识库与自动化 Agent 教程</div>
+                        </td>
+                        <td>
+                            <div class="audience">需要为企业或个人搭建专属知识库、自动化工作流的产品人</div>
+                        </td>
+                    </tr>
+                    <tr data-category="AI 架构与 Prompt 工程">
+                        <td class="author-cell">
+                            <div class="author-name">AI进化论 花生</div>
+                            <a href="https://x.com/AlchainHust" target="_blank" class="author-handle">@AlchainHust</a>
+                        </td>
+                        <td><span class="category-badge">AI 架构与 Prompt 工程</span></td>
+                        <td>
+                            <div>高产硬核测评玩家，聚焦 AI Native 产品拆解、新模型编程能力第一时间长篇实战复盘。</div>
+                            <div class="tags"><span class="tag">#AI编程</span><span class="tag">#视频生成</span><span class="tag">#硬核实测</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">各大主流 AI 编程工具极限写完整项目横评与避坑指北</div>
+                        </td>
+                        <td>
+                            <div class="audience">关注最新编程辅助工具性能边界与生产力工具选型的工程师</div>
+                        </td>
+                    </tr>
+                    <tr data-category="AI 架构与 Prompt 工程">
+                        <td class="author-cell">
+                            <div class="author-name">响马</div>
+                            <a href="https://x.com/xicilion" target="_blank" class="author-handle">@xicilion</a>
+                        </td>
+                        <td><span class="category-badge">AI 架构与 Prompt 工程</span></td>
+                        <td>
+                            <div>资深技术极客，从底层工程视角审视 LLM 架构局限与真实能力，拒绝泡沫与自嗨。</div>
+                            <div class="tags"><span class="tag">#底层技术</span><span class="tag">#开源模型</span><span class="tag">#架构演进</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">本地部署大模型在真实工业级场景下的性能边界剖析</div>
+                        </td>
+                        <td>
+                            <div class="audience">追求技术本质、看重架构稳定性与抗压能力的资深研发</div>
+                        </td>
+                    </tr>
+                    <tr data-category="AI 架构与 Prompt 工程">
+                        <td class="author-cell">
+                            <div class="author-name">Gorden_Sun</div>
+                            <a href="https://x.com/Gorden_Sun" target="_blank" class="author-handle">@Gorden_Sun</a>
+                        </td>
+                        <td><span class="category-badge">AI 架构与 Prompt 工程</span></td>
+                        <td>
+                            <div>AI 领域的高效雷达，每日紧贴全球技术社区输出第一手经过提炼的关键动态。</div>
+                            <div class="tags"><span class="tag">#资讯日报</span><span class="tag">#模型追踪</span><span class="tag">#全球动态</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">每日 AI 前沿技术与开源库动态摘要精选</div>
+                        </td>
+                        <td>
+                            <div class="audience">需要用最短时间获取全球技术风向的一线技术决策者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="AI 架构与 Prompt 工程">
+                        <td class="author-cell">
+                            <div class="author-name">小互</div>
+                            <a href="https://x.com/xiaohu" target="_blank" class="author-handle">@xiaohu</a>
+                        </td>
+                        <td><span class="category-badge">AI 架构与 Prompt 工程</span></td>
+                        <td>
+                            <div>工具挖掘机，长期分享全球范围内小而美、真正解决具体效率痛点的 AI 工具。</div>
+                            <div class="tags"><span class="tag">#新奇工具</span><span class="tag">#效率神器</span><span class="tag">#工具导航</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">年度高分小众生产力与 AI 应用实测清单</div>
+                        </td>
+                        <td>
+                            <div class="audience">寻求提高日常办公、研究与内容生产效率的数字工作者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="AI 架构与 Prompt 工程">
+                        <td class="author-cell">
+                            <div class="author-name">倪爽</div>
+                            <a href="https://x.com/nishuang" target="_blank" class="author-handle">@nishuang</a>
+                        </td>
+                        <td><span class="category-badge">AI 架构与 Prompt 工程</span></td>
+                        <td>
+                            <div>注重工具与工作流体系化设计的创作者，内容严谨扎实，版式设计与信息密度兼备。</div>
+                            <div class="tags"><span class="tag">#生产力架构</span><span class="tag">#设计系统</span><span class="tag">#认知管理</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">个人高效数字工作台与多源信息摄入管线搭建方案</div>
+                        </td>
+                        <td>
+                            <div class="audience">追求高质量个人知识管理体系与高效工作流的专业人士</div>
+                        </td>
+                    </tr>
+                    <tr data-category="独立开发与出海商业化">
+                        <td class="author-cell">
+                            <div class="author-name">鱼总聊AI</div>
+                            <a href="https://x.com/AI_Jasonyu" target="_blank" class="author-handle">@AI_Jasonyu</a>
+                        </td>
+                        <td><span class="category-badge">独立开发与出海商业化</span></td>
+                        <td>
+                            <div>实战派独立开发者，跑通单款产品 $200k+ 全自然流量变现，分享海外真实账本与海外卡实操。</div>
+                            <div class="tags"><span class="tag">#自然流量</span><span class="tag">#付费墙Agent</span><span class="tag">#出海SaaS</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">@PaywallPro1 付费墙Agent 与出海冷启动流量打法</div>
+                        </td>
+                        <td>
+                            <div class="audience">希望靠小而美出海工具实现正向现金流的独立 Hacker</div>
+                        </td>
+                    </tr>
+                    <tr data-category="独立开发与出海商业化">
+                        <td class="author-cell">
+                            <div class="author-name">艾略特</div>
+                            <a href="https://x.com/elliotchen100" target="_blank" class="author-handle">@elliotchen100</a>
+                        </td>
+                        <td><span class="category-badge">独立开发与出海商业化</span></td>
+                        <td>
+                            <div>深度拆解海外微型 SaaS 商业模式、冷启动打法与 SEO 截流策略的实操博主。</div>
+                            <div class="tags"><span class="tag">#出海案例</span><span class="tag">#冷启动</span><span class="tag">#增长黑客</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">月入万刀海外小工具底层获客模型与技术栈全景拆解</div>
+                        </td>
+                        <td>
+                            <div class="audience">苦于没有产品选题灵感与初期冷启动流量的独立开发者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="独立开发与出海商业化">
+                        <td class="author-cell">
+                            <div class="author-name">郭宇</div>
+                            <a href="https://x.com/turingou" target="_blank" class="author-handle">@turingou</a>
+                        </td>
+                        <td><span class="category-badge">独立开发与出海商业化</span></td>
+                        <td>
+                            <div>前字节工程师，早期财务自由实践者，长期分享数字游民生活、远程技术协作与长期主义创作。</div>
+                            <div class="tags"><span class="tag">#数字游民</span><span class="tag">#远程协作</span><span class="tag">#开源资产</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">关于个人开发者跨地域生存、资产配置与软件自由的系列长文</div>
+                        </td>
+                        <td>
+                            <div class="audience">向往数字游民生活方式、希望通过长期主义资产实现自由的技术人</div>
+                        </td>
+                    </tr>
+                    <tr data-category="独立开发与出海商业化">
+                        <td class="author-cell">
+                            <div class="author-name">吕立青</div>
+                            <a href="https://x.com/Jimmy_Lv" target="_blank" class="author-handle">@Jimmy_Lv</a>
+                        </td>
+                        <td><span class="category-badge">独立开发与出海商业化</span></td>
+                        <td>
+                            <div>知名开源创作者，BiliGPT 音视频摘要工具作者，深耕个人生产力与 AI 自动化。</div>
+                            <div class="tags"><span class="tag">#BiliGPT</span><span class="tag">#开源总结</span><span class="tag">#知识流</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">BiliGPT 极速音视频摘要与个人第二大脑自动化流</div>
+                        </td>
+                        <td>
+                            <div class="audience">喜爱开源生态、热衷折腾个人自动化工具链的极客</div>
+                        </td>
+                    </tr>
+                    <tr data-category="独立开发与出海商业化">
+                        <td class="author-cell">
+                            <div class="author-name">goocarlos</div>
+                            <a href="https://x.com/goocarlos" target="_blank" class="author-handle">@goocarlos</a>
+                        </td>
+                        <td><span class="category-badge">独立开发与出海商业化</span></td>
+                        <td>
+                            <div>开发者视角的产品打磨者，强调先写代码解决自己的真实痛点，再把它变成商业化产品。</div>
+                            <div class="tags"><span class="tag">#一人公司</span><span class="tag">#全栈产品</span><span class="tag">#敏捷闭环</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">个人开发者如何用两周时间完成一款可收费工具的全栈构建</div>
+                        </td>
+                        <td>
+                            <div class="audience">想要把业余脚本封装为标准商业 SaaS 的全栈程序员</div>
+                        </td>
+                    </tr>
+                    <tr data-category="独立开发与出海商业化">
+                        <td class="author-cell">
+                            <div class="author-name">纯洁的微笑</div>
+                            <a href="https://x.com/keeppuresmile" target="_blank" class="author-handle">@keeppuresmile</a>
+                        </td>
+                        <td><span class="category-badge">独立开发与出海商业化</span></td>
+                        <td>
+                            <div>资深程序员商业化观察者，长期分享技术人如何跳出纯打工思维、构建个人多元现金流。</div>
+                            <div class="tags"><span class="tag">#技术副业</span><span class="tag">#商业闭环</span><span class="tag">#技术转型</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">程序员从写代码到建立独立被动收入体系的实操路径复盘</div>
+                        </td>
+                        <td>
+                            <div class="audience">面临职场瓶颈、希望探索第二曲线与商业化出路的技术从业者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="独立开发与出海商业化">
+                        <td class="author-cell">
+                            <div class="author-name">shao__meng</div>
+                            <a href="https://x.com/shao__meng" target="_blank" class="author-handle">@shao__meng</a>
+                        </td>
+                        <td><span class="category-badge">独立开发与出海商业化</span></td>
+                        <td>
+                            <div>技术底蕴扎实的 Web 开发者，常将复杂学术论文提炼为可直接运行的开源项目与产品构想。</div>
+                            <div class="tags"><span class="tag">#Web架构</span><span class="tag">#论文复现</span><span class="tag">#产品落地</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">从前沿 AI 算法论文到浏览器端直接调用的工程化落地实录</div>
+                        </td>
+                        <td>
+                            <div class="audience">关注前沿算法如何在 Web 前端与轻量后端快速部署的研发</div>
+                        </td>
+                    </tr>
+                    <tr data-category="独立开发与出海商业化">
+                        <td class="author-cell">
+                            <div class="author-name">WaytoAGI</div>
+                            <a href="https://x.com/WaytoAGI" target="_blank" class="author-handle">@WaytoAGI</a>
+                        </td>
+                        <td><span class="category-badge">独立开发与出海商业化</span></td>
+                        <td>
+                            <div>国内极具影响力的中文开源 AI 知识库社区，收录整理了极为全面的工具链与教程。</div>
+                            <div class="tags"><span class="tag">#开源社区</span><span class="tag">#知识库</span><span class="tag">#学习路线</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">《WaytoAGI 知识库》全球 AI 学习与实战知识图谱</div>
+                        </td>
+                        <td>
+                            <div class="audience">想要全面系统梳理 AI 知识框架、快速查阅工具的各类学习者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="视觉与前沿生成式创意">
+                        <td class="author-cell">
+                            <div class="author-name">海辛</div>
+                            <a href="https://x.com/haibun" target="_blank" class="author-handle">@haibun</a>
+                        </td>
+                        <td><span class="category-badge">视觉与前沿生成式创意</span></td>
+                        <td>
+                            <div>AI 影视短片先锋导演，深入探索如何用 AI 搭建工业级视频短片制作流程与镜头语言。</div>
+                            <div class="tags"><span class="tag">#AI电影</span><span class="tag">#资产管线</span><span class="tag">#视觉导演</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">全流程 AI 生成科幻短片制作管线与分镜头控制实操</div>
+                        </td>
+                        <td>
+                            <div class="audience">从事影视、设计、动漫制作并希望将 AI 引入生产流程的创作者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="视觉与前沿生成式创意">
+                        <td class="author-cell">
+                            <div class="author-name">早见 Hayami</div>
+                            <a href="https://x.com/Hayami_kiraa" target="_blank" class="author-handle">@Hayami_kiraa</a>
+                        </td>
+                        <td><span class="category-badge">视觉与前沿生成式创意</span></td>
+                        <td>
+                            <div>跨界创作者，连接人文思考、前沿科技与个人表达，视角独特且敏锐。</div>
+                            <div class="tags"><span class="tag">#独立创作者</span><span class="tag">#播客</span><span class="tag">#人机协同</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">数字游民视角下关于 AI 时代人机协作与个人叙事的深度播客与长文</div>
+                        </td>
+                        <td>
+                            <div class="audience">关注科技对个体生活方式深远影响的独立创作者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="架构思考与极客工程">
+                        <td class="author-cell">
+                            <div class="author-name">thinkingjimmy</div>
+                            <a href="https://x.com/thinkingjimmy" target="_blank" class="author-handle">@thinkingjimmy</a>
+                        </td>
+                        <td><span class="category-badge">架构思考与极客工程</span></td>
+                        <td>
+                            <div>聚焦普通人可用的 AI 工具科普，用极其通俗的语言降低前沿科技的理解门槛。</div>
+                            <div class="tags"><span class="tag">#工具普及</span><span class="tag">#上手体验</span><span class="tag">#平民级AI</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">零基础玩转大模型日常生产力的十个杀手级用法</div>
+                        </td>
+                        <td>
+                            <div class="audience">对技术不甚了解但急需提升日常工作效率的初学者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="架构思考与极客工程">
+                        <td class="author-cell">
+                            <div class="author-name">Tumeng05</div>
+                            <a href="https://x.com/Tumeng05" target="_blank" class="author-handle">@Tumeng05</a>
+                        </td>
+                        <td><span class="category-badge">架构思考与极客工程</span></td>
+                        <td>
+                            <div>聚焦企业级 Agent 与 RAG 的技术创业者，常分析模型选型性价比与企业交付真实现状。</div>
+                            <div class="tags"><span class="tag">#Agent商业化</span><span class="tag">#RAG落地</span><span class="tag">#模型选型</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">企业级私有化知识库上线交付中的十大隐形技术暗坑分析</div>
+                        </td>
+                        <td>
+                            <div class="audience">负责企业内部大模型产品规划与交付的技术负责人</div>
+                        </td>
+                    </tr>
+                    <tr data-category="架构思考与极客工程">
+                        <td class="author-cell">
+                            <div class="author-name">Orange AI</div>
+                            <a href="https://x.com/oran_ge" target="_blank" class="author-handle">@oran_ge</a>
+                        </td>
+                        <td><span class="category-badge">架构思考与极客工程</span></td>
+                        <td>
+                            <div>站在投资与创业交叉口观察全球 Agent 演化趋势，注重商业模式可持续性。</div>
+                            <div class="tags"><span class="tag">#创业趋势</span><span class="tag">#产品感知</span><span class="tag">#Agent生态</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">硅谷最新一批 Agent Native 创业项目的商业切角与存活率洞察</div>
+                        </td>
+                        <td>
+                            <div class="audience">寻找 AI 赛道创业切入点与商业机会的创业者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="架构思考与极客工程">
+                        <td class="author-cell">
+                            <div class="author-name">立党</div>
+                            <a href="https://x.com/lidangzzz" target="_blank" class="author-handle">@lidangzzz</a>
+                        </td>
+                        <td><span class="category-badge">架构思考与极客工程</span></td>
+                        <td>
+                            <div>前 Google 工程师，以毒舌与一针见血的技术评论著称，经常拆穿各种概念炒作与技术伪需求。</div>
+                            <div class="tags"><span class="tag">#高并发架构</span><span class="tag">#技术热点</span><span class="tag">#真实犀利</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">从真实分布式系统工程角度看大模型基础设施的真实算力账本</div>
+                        </td>
+                        <td>
+                            <div class="audience">喜欢看破行业吹嘘、关注真实技术成本与商业逻辑的技术从业者</div>
+                        </td>
+                    </tr>
+                    <tr data-category="架构思考与极客工程">
+                        <td class="author-cell">
+                            <div class="author-name">阑夕</div>
+                            <a href="https://x.com/iamailing" target="_blank" class="author-handle">@iamailing</a>
+                        </td>
+                        <td><span class="category-badge">架构思考与极客工程</span></td>
+                        <td>
+                            <div>中文科技互联网深度观察者，长于梳理硅谷与国内科技巨头的技术路线演进与战略布局。</div>
+                            <div class="tags"><span class="tag">#科技商业</span><span class="tag">#行业观察</span><span class="tag">#长文分析</span></div>
+                        </td>
+                        <td>
+                            <div class="masterpiece">科技巨头在 AI 基础设施与端侧设备上的军备竞赛全景解析</div>
+                        </td>
+                        <td>
+                            <div class="audience">希望跳出代码细节、看清科技产业宏观格局的思考者</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const rows = document.querySelectorAll('#tableBody tr');
+
+        let currentFilter = 'all';
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                applyFilters();
+            });
+        });
+
+        searchInput.addEventListener('input', applyFilters);
+
+        function applyFilters() {
+            const query = searchInput.value.toLowerCase().trim();
+            rows.forEach(row => {
+                const category = row.dataset.category;
+                const text = row.innerText.toLowerCase();
+                const matchesFilter = (currentFilter === 'all' || category === currentFilter);
+                const matchesSearch = (!query || text.includes(query));
+
+                if (matchesFilter && matchesSearch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
